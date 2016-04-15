@@ -1,6 +1,4 @@
-# Logstash Plugin
-
-[![Travis Build Status](https://travis-ci.org/logstash-plugins/logstash-filter-elasticsearch.svg)](https://travis-ci.org/logstash-plugins/logstash-filter-elasticsearch)
+# Sohonetipdb Logstash Plugin
 
 This is a plugin for [Logstash](https://github.com/elastic/logstash).
 

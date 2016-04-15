@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
 
-  s.name            = 'logstash-filter-elasticsearch'
-  s.version         = '2.0.4'
+  s.name            = 'logstash-filter-sohonetipdb'
+  s.version         = '0.9.0'
   s.licenses        = ['Apache License (2.0)']
-  s.summary         = "Search elasticsearch for a previous log event and copy some fields from it into the current event"
+  s.summary         = "Lookup and inject sohonet customer info & other IP databases into events"
   s.description     = "This gem is a logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/plugin install gemname. This gem is not a stand-alone program"
-  s.authors         = ["Elastic"]
-  s.email           = 'info@elastic.co'
-  s.homepage        = "http://www.elastic.co/guide/en/logstash/current/index.html"
+  s.authors         = ["Elastic", "Johan van den Dorpe"]
+  s.email           = 'johan.vandendorpe@sohonet.com'
+  s.homepage        = "https://github.com/sohonet/logstash-filter-sohonetipdb"
   s.require_paths = ["lib"]
 
   # Files
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   # Gem dependencies
   s.add_runtime_dependency "logstash-core-plugin-api", "~> 1.0"
   s.add_runtime_dependency 'elasticsearch'
+  s.add_runtime_dependency 'redis'
 
   s.add_development_dependency 'logstash-devutils'
 end

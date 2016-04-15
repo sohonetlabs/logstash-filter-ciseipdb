@@ -78,7 +78,6 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
   def filter(event)
 
     ipaddress = event.sprintf(@ipaddress)
-    ipdb = Array.new
 
     # Check ip address in redis
     data = check_redis(ipaddress)

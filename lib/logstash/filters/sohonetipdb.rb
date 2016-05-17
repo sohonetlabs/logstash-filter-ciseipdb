@@ -97,7 +97,18 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
   def search(ip)
     output = Array.new
     begin
-      query = { query: { term: { IPADDRESS: ip } } }
+      query = {
+        query: {
+          filtered: {
+            filter: {
+              and: [
+                { term: { IPADDRESS: ip } },
+                { range: { "@timestamp" => { gte: "now-1d/d", lt: "now" } } }
+              ]
+            }
+          }
+        }
+      }
       results = @client.search index: @indexes, body: query
 
       if results['hits']['total'] >= 1

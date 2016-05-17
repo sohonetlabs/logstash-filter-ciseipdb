@@ -89,13 +89,13 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
     end
 
     # Update event
-    event[@target] = { databases: data }
+    event[@target] = data
     filter_matched(event)
 
   end # def filter
 
   def search(ip)
-    output = Array.new
+    output = Hash.new
     begin
       query = {
         query: {
@@ -112,8 +112,16 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
       results = @client.search index: @indexes, body: query
 
       if results['hits']['total'] >= 1
+        output['databases'] = Array.new
         results['hits']['hits'].each do |hit|
-          output << hit['_source']['database']['name']
+          output['databases'] << hit['_source']['database']['name']
+
+          # Extra data from nipap
+          if hit['_source']['database']['shortname'] == 'nipap'
+            output['service_slug'] = hit['_source']['service_slug']
+            output['description'] = hit['_source']['description']
+            output['router'] = hit['_source']['router']
+          end
         end
       end
 

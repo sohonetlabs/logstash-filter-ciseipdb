@@ -89,7 +89,10 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
     end
 
     # Update event
-    event[@target] = data
+    data.each_pair do |k,v|
+      targetname = "#{@target}_#{k}"
+      event[targetname] = v
+    end
     filter_matched(event)
 
   end # def filter

@@ -117,7 +117,7 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
       if results['hits']['total'] >= 1
         output['databases'] = Array.new
         results['hits']['hits'].each do |hit|
-          output['databases'] << hit['_source']['database']['name']
+          output['databases'] << hit['_source']['database']['shortname']
 
           # Extra data from nipap
           if hit['_source']['database']['shortname'] == 'nipap'

@@ -68,7 +68,7 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
       transport_options[:ssl] = { ca_file: @ca_file }
     end
 
-    @logger.info("New ElasticSearch filter", :hosts => hosts)
+    @logger.info("New Sohonet IPDB filter", :hosts => hosts)
     @client = Elasticsearch::Client.new hosts: hosts, transport_options: transport_options
 
     @redis = Redis.new
@@ -99,6 +99,7 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
 
   def search(ip)
     output = Hash.new
+
     begin
       query = {
         query: {
@@ -116,8 +117,10 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
 
       if results['hits']['total'] >= 1
         output['databases'] = Array.new
+        output['reputation_score'] = 0
         results['hits']['hits'].each do |hit|
           output['databases'] << hit['_source']['database']['shortname']
+          output['reputation_score'] += hit['_source']['database']['reputation_score'].to_i
 
           # Extra data from nipap
           if hit['_source']['database']['shortname'] == 'nipap'

@@ -17,4 +17,5 @@ Example:
       indexes => [ "ipdatabase" ]
       ipaddress => "%{ip_dst}"
       target  => "dst_info"
+      redis_host => "localhost'
     }

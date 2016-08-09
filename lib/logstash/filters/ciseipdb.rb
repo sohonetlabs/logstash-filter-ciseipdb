@@ -43,6 +43,9 @@ class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
   # SSL Certificate Authority file
   config :ca_file, :validate => :path
 
+  # Redis host
+  config :redis_host, :validate => :string, :default => "localhost"
+
   # Redis key TTL
   config :redis_ttl, :validate => :number, :default => 3600
 
@@ -72,7 +75,7 @@ class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
     @logger.info("New CISE IPDB filter", :hosts => hosts)
     @client = Elasticsearch::Client.new hosts: hosts, transport_options: transport_options
 
-    @redis = Redis.new
+    @redis = Redis.new(:host => redis_host)
   end # def register
 
   public

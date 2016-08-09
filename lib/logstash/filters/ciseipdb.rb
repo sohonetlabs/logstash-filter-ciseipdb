@@ -2,21 +2,22 @@ require "logstash/filters/base"
 require "logstash/namespace"
 require "base64"
 
-# Search elasticsearch for matching IPs in sohonet IP databases and add that
-# inforation into events.
-# Cache matching IPs in redis.
+# Search elasticsearch for matching IPs in Elasticsearch IP database indexes i
+# and add that information into events.
+#
+# Caches matching IPs in redis.
 #
 # Example:
 #
-# sohonetipdb {
-#    hosts   => [ "elasticsearch.elk.sohonet.internal" ]
-#    indexes => [ "badip" ]
+# ciseipdb {
+#    hosts   => [ "elasticsearch" ]
+#    indexes => [ "ipdatabase" ]
 #    ipaddress => "%{ip_dst}"
 #    target  => "dst_info"
 # }
 
-class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
-  config_name "sohonetipdb"
+class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
+  config_name "ciseipdb"
 
   # List of elasticsearch hosts to use for querying.
   config :hosts, :validate => :array, :required => true
@@ -68,7 +69,7 @@ class LogStash::Filters::Sohonetipdb < LogStash::Filters::Base
       transport_options[:ssl] = { ca_file: @ca_file }
     end
 
-    @logger.info("New Sohonet IPDB filter", :hosts => hosts)
+    @logger.info("New CISE IPDB filter", :hosts => hosts)
     @client = Elasticsearch::Client.new hosts: hosts, transport_options: transport_options
 
     @redis = Redis.new

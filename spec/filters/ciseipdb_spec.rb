@@ -2,13 +2,13 @@
 
 require "logstash/devutils/rspec/spec_helper"
 require "logstash/plugin"
-require "logstash/filters/sohonetipdb"
+require "logstash/filters/ciseipdb"
 
-describe LogStash::Filters::Sohonetipdb do
+describe LogStash::Filters::Ciseipdb do
 
   context "registration" do
 
-    let(:plugin) { LogStash::Plugin.lookup("filter", "sohonetipdb").new({}) }
+    let(:plugin) { LogStash::Plugin.lookup("filter", "ciseipdb").new({}) }
 
     it "should not raise an exception" do
       expect {plugin.register}.to_not raise_error

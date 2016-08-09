@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
 
-  s.name            = 'logstash-filter-sohonetipdb'
-  s.version         = '0.9.2'
+  s.name            = 'logstash-filter-ciseipdb'
+  s.version         = '0.10.0'
   s.licenses        = ['Apache License (2.0)']
-  s.summary         = "Lookup and inject sohonet customer info & other IP databases into events"
+  s.summary         = "Lookup and inject IP database information into events"
   s.description     = "This gem is a logstash plugin required to be installed on top of the Logstash core pipeline using $LS_HOME/bin/plugin install gemname. This gem is not a stand-alone program"
-  s.authors         = ["Elastic", "Johan van den Dorpe"]
-  s.email           = 'johan.vandendorpe@sohonet.com'
-  s.homepage        = "https://github.com/sohonet/logstash-filter-sohonetipdb"
+  s.authors         = ["Elastic", "Sohonet"]
+  s.email           = 'support@sohonet.com'
+  s.homepage        = "https://github.com/sohonetlabs/logstash-filter-ciseipdb"
   s.require_paths = ["lib"]
 
   # Files

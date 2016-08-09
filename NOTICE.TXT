@@ -1,3 +1,10 @@
+logstash-filter-ciseipdb logstash plugin
+
+Copyright, 2016 Sohonet
+
+This software contains code derived from logstash-filter-elasticsearch
+Copyright 2012-2015 Elasticsearch
+
 Elasticsearch
 Copyright 2012-2015 Elasticsearch
 

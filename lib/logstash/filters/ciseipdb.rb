@@ -132,6 +132,13 @@ class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
             output['description'] = hit['_source']['description']
             output['router'] = hit['_source']['router']
           end
+
+          # Extra data for pools
+          if hit['_source']['database']['shortname'] == 'pool'
+            output['pool_name'] = hit['_source']['pool_name']
+            output['pool_description'] = hit['_source']['pool_description']
+          end
+
         end
       end
 

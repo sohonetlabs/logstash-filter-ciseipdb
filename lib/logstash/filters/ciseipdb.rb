@@ -27,37 +27,20 @@ class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
   # Target field for added fields
   config :target, :validate => :string, :required => true
 
-  # Redis host
-  config :redis_host, :validate => :string, :default => "localhost"
-
-  # Redis key TTL
-  config :redis_ttl, :validate => :number, :default => 3600
-
-
   public
   def register
     require "gdbm"
-    require "redis"
     require "json"
 
     @logger.info("New CISE IPDB filter", :database => database)
     @gdbm = GDBM.new(database)
-    @redis = Redis.new(:host => redis_host)
   end # def register
 
   public
   def filter(event)
 
     ipaddress = event.sprintf(@ipaddress)
-
-    # Check ip address in redis
-    data = check_redis(ipaddress)
-
-    # IP not in redis, lookup elasticsearch, add to redis
-    if data.nil?
-      data = check_gdbm(ipaddress)
-      update_redis(ipaddress, data)
-    end
+    data = check_gdbm(ipaddress)
 
     # Update event
     unless data.nil?
@@ -80,29 +63,8 @@ class LogStash::Filters::Ciseipdb < LogStash::Filters::Base
       end
     rescue => e
       @logger.warn("Problem getting data from database", :ip => ip, :error => e)
+      nil
     end
   end # def check_gdbm
-
-  def check_redis(ip)
-    begin
-      output = @redis.get(ip)
-      if output.nil?
-        output
-      else
-        eval(output)
-      end
-    rescue => e
-      @logger.warn("Problem getting key from redis", :ip => ip, :error => e)
-    end
-  end # def check_redis
-
-  def update_redis(ip, data)
-    begin
-      @redis.set(ip, data)
-      @redis.expire(ip, @redis_ttl)
-    rescue => e
-      @logger.warn("Problem updating redis", :ip => ip, :data => data , :error => e)
-    end
-  end # def update_redis
 
 end # class LogStash::Filters::Ciseipdb
